@@ -1,26 +1,25 @@
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import sqlite3
 from collections import Counter
 
 
-# 📥 Cargar base de datos
+#Cargar base de datos
 conn = sqlite3.connect("base_datos.db")  # Subí este archivo a Colab
 df = pd.read_sql_query("SELECT * FROM boliches", conn)
 conn.close()
 
 
-# 👀 Mostrar las primeras filas
+#Mostrar las primeras filas
 print(df.head())
 
 
-# 🎨 Configuración global de gráficos
+#Configuración global de gráficos
 plt.rcParams["figure.figsize"] = (10, 6)
 plt.rcParams["axes.grid"] = True
 
 
-# 🔢 1. Cantidad de boliches por perfil
+# 1. Cantidad de boliches por perfil
 perfil_counts = df['perfil'].value_counts()
 perfil_counts.plot(kind='bar', color='skyblue', edgecolor='black')
 plt.title("Cantidad de boliches por perfil")
@@ -31,7 +30,7 @@ plt.tight_layout()
 plt.show()
 
 
-# 👶 2. Cantidad de boliches según edad mínima
+#2. Cantidad de boliches según edad mínima
 edad_counts = df['edad_minima'].value_counts().sort_index()
 edad_counts.plot(kind='bar', color='salmon', edgecolor='black')
 plt.title("Cantidad de boliches por edad mínima")
@@ -41,7 +40,7 @@ plt.tight_layout()
 plt.show()
 
 
-# 🎵 3. Géneros musicales más frecuentes
+#3. Géneros musicales más frecuentes
 musicas = df['musica'].str.lower().str.split(", ")
 generos = [item.strip() for sublist in musicas for item in sublist]
 conteo_generos = Counter(generos)
@@ -56,7 +55,7 @@ plt.tight_layout()
 plt.show()
 
 
-# 📆 4. Días de apertura más comunes
+#4. Días de apertura más comunes
 dias = df['dias'].str.lower()
 dias = dias.str.replace("sábados", "sábado").str.replace("viernes", "viernes")  # uniformar
 dias_separados = dias.str.split(", ")
